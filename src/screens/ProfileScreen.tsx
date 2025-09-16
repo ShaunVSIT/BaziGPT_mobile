@@ -185,12 +185,8 @@ const ProfileScreen = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentInsetAdjustmentBehavior="never"
-        scrollIndicatorInsets={{ top: 0 }}
-      >
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }} edges={['top', 'left', 'right']}>
+      <ScrollView showsVerticalScrollIndicator={false} contentInsetAdjustmentBehavior="never">
         <View style={styles.header}>
           <Text style={styles.title}>Profile</Text>
           <Text style={styles.subtitle}>
@@ -237,10 +233,6 @@ const ProfileScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
   header: {
     padding: SIZES.lg,
     alignItems: 'center',

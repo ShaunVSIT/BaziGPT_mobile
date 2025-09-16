@@ -117,7 +117,7 @@ const FamousScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }} edges={['top', 'left', 'right']}>
       <View style={styles.header}>
         <Text style={styles.title}>Famous Bazi Charts</Text>
         <Text style={styles.subtitle}>

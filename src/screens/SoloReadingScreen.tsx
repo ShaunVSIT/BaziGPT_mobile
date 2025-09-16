@@ -17,6 +17,8 @@ import { format } from 'date-fns';
 import { useFocusEffect } from '@react-navigation/native';
 
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
+import AppHeader from '../components/AppHeader';
+import AboutScreen from './AboutScreen';
 import Markdown from '../components/Markdown';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { baziApi, BaziReadingRequest, BaziFollowupRequest } from '../services/api';
@@ -37,6 +39,7 @@ const SoloReadingScreen = () => {
     const [followUpAnswer, setFollowUpAnswer] = useState<string | null>(null);
     const [followUpLoading, setFollowUpLoading] = useState(false);
     const [cachedAnswers, setCachedAnswers] = useState<Record<string, string>>({});
+    const [aboutOpen, setAboutOpen] = useState(false);
 
     // Build a stable cache key for a reading based on DOB and time
     const getReadingCacheKey = (date: Date, time: Date) => {
@@ -164,18 +167,16 @@ const SoloReadingScreen = () => {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }} edges={['left', 'right', 'bottom']}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentInsetAdjustmentBehavior="never"
-                scrollIndicatorInsets={{ top: 0, bottom: insets.bottom }}
-                contentContainerStyle={[
-                    styles.scrollContent,
-                    { paddingLeft: insets.left, paddingRight: insets.right },
-                ]}
+                contentContainerStyle={{ paddingBottom: SIZES.xl }}
+                scrollIndicatorInsets={{ top: 0 }}
             >
-                <View style={[styles.header, { paddingTop: insets.top + 10 }]}>
-                    <Text style={styles.title}>BaziGPT</Text>
+                <AppHeader onPressAbout={() => setAboutOpen(true)} scrollable />
+                <View style={[styles.headerSub, { paddingTop: 0 }]}>
+                    <Text style={styles.title}>Personal Reading</Text>
                     <Text style={styles.subtitle}>
                         Discover your destiny through AI-powered Chinese astrology
                     </Text>
@@ -361,25 +362,35 @@ const SoloReadingScreen = () => {
                         </View>
                     </View>
                 </Modal>
+
+                {/* About Fullscreen Modal */}
+                <Modal visible={aboutOpen} animationType="slide">
+                    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }} edges={['left', 'right', 'bottom']}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.md, paddingTop: insets.top + SIZES.xs }}>
+                            <TouchableOpacity onPress={() => setAboutOpen(false)}>
+                                <Text style={{ color: COLORS.primary, fontWeight: '700' }}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <AboutScreen />
+                    </SafeAreaView>
+                </Modal>
             </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'transparent', // Let background component from App.tsx show through
-    },
-    scrollContent: {
-        flexGrow: 1,
-        paddingBottom: SIZES.xl,
-    },
     header: {
-        paddingHorizontal: SIZES.lg,
+        paddingHorizontal: SIZES.md,
         alignItems: 'center',
-        paddingBottom: SIZES.lg,
-        // paddingTop is now dynamically set using safe area insets
+        paddingBottom: SIZES.sm,
+    },
+    headerSub: {
+        paddingHorizontal: SIZES.md,
+        alignItems: 'center',
+        paddingBottom: SIZES.sm,
+        marginTop: SIZES.md,
+        marginBottom: SIZES.sm,
     },
     title: {
         fontSize: SIZES.h2,
@@ -427,6 +438,7 @@ const styles = StyleSheet.create({
         fontSize: SIZES.caption,
         color: COLORS.textSecondary,
         marginBottom: SIZES.md,
+        textAlign: 'center',
     },
     genderContainer: {
         marginBottom: SIZES.md,

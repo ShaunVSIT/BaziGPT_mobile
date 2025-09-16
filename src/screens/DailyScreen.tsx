@@ -3,10 +3,10 @@ import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  Modal,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -69,7 +69,7 @@ const DailyScreen = () => {
 
   if (!hasProfile) {
     return (
-      <View style={styles.container}>
+      <View style={{ flex: 1 }}>
         <View style={styles.emptyState}>
           <Ionicons name="person-outline" size={64} color={COLORS.textMuted} />
           <Text style={styles.emptyTitle}>No Profile Set</Text>
@@ -82,12 +82,8 @@ const DailyScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentInsetAdjustmentBehavior="never"
-        scrollIndicatorInsets={{ top: 0 }}
-      >
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }} edges={['top', 'left', 'right']}>
+      <View>
         <View style={styles.header}>
           <Text style={styles.title}>Daily Forecast</Text>
           <Text style={styles.date}>{format(new Date(), 'EEEE, MMMM dd, yyyy')}</Text>
@@ -125,16 +121,12 @@ const DailyScreen = () => {
             <Text style={styles.refreshCardText}>Refresh Forecast</Text>
           </TouchableOpacity>
         )}
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
   header: {
     padding: SIZES.lg,
     alignItems: 'center',

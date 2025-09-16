@@ -12,7 +12,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { format } from 'date-fns';
 
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
@@ -21,7 +21,6 @@ import { baziApi, CompatibilityRequest } from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CompatibilityScreen = () => {
-  const insets = useSafeAreaInsets();
   const [person1, setPerson1] = useState({
     birthDate: new Date(),
     birthTime: new Date(),
@@ -125,21 +124,11 @@ const CompatibilityScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentInsetAdjustmentBehavior="never"
-        scrollIndicatorInsets={{ top: 0, bottom: insets.bottom }}
-        contentContainerStyle={[
-          styles.scrollContent,
-          { paddingLeft: insets.left, paddingRight: insets.right },
-        ]}
-      >
-        <View style={[styles.header, { paddingTop: insets.top + 10 }]}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }} edges={['top', 'left', 'right']}>
+      <ScrollView showsVerticalScrollIndicator={false} contentInsetAdjustmentBehavior="never">
+        <View style={styles.header}>
           <Text style={styles.title}>Compatibility Analysis</Text>
-          <Text style={styles.subtitle}>
-            Discover your relationship compatibility through Bazi astrology
-          </Text>
+          <Text style={styles.subtitle}>Discover your relationship compatibility through Bazi astrology</Text>
         </View>
 
         {renderPersonCard(person1, setPerson1, 1, 'Person 1')}
@@ -211,25 +200,18 @@ const CompatibilityScreen = () => {
             </View>
           </View>
         </Modal>
+
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'transparent', // Let background component from App.tsx show through
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingBottom: SIZES.md, // Reduced bottom padding
-  },
   header: {
     paddingHorizontal: SIZES.lg,
+    paddingTop: SIZES.lg,
+    paddingBottom: SIZES.md,
     alignItems: 'center',
-    paddingBottom: SIZES.sm, // Reduced bottom padding
-    // paddingTop is now dynamically set using safe area insets
   },
   title: {
     fontSize: SIZES.h2,
