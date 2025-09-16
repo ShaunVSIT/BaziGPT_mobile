@@ -259,8 +259,9 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: COLORS.surface,
-    margin: SIZES.md,
-    padding: SIZES.lg,
+    marginHorizontal: SIZES.sm,
+    marginVertical: SIZES.sm,
+    padding: SIZES.md,
     borderRadius: SIZES.radius,
     ...SHADOWS.medium,
   },

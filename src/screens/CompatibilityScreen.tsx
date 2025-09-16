@@ -16,6 +16,7 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { format } from 'date-fns';
 
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
+import Markdown from '../components/Markdown';
 import { baziApi, CompatibilityRequest } from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -169,7 +170,7 @@ const CompatibilityScreen = () => {
         {compatibility && (
           <View style={styles.card}>
             <Text style={styles.cardTitle}>Compatibility Analysis</Text>
-            <Text style={styles.compatibilityText}>{compatibility}</Text>
+            <Markdown>{compatibility}</Markdown>
           </View>
         )}
 
@@ -244,12 +245,12 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: 'rgba(30, 30, 30, 0.8)', // Semi-transparent to blend with background
-    marginHorizontal: SIZES.lg,
-    marginVertical: SIZES.sm, // Reduced vertical margin
-    padding: SIZES.md, // Reduced padding
+    marginHorizontal: SIZES.sm, // tighter sides
+    marginVertical: SIZES.sm,
+    padding: SIZES.md,
     borderRadius: SIZES.radius,
     borderWidth: 1,
-    borderColor: 'rgba(255, 165, 0, 0.2)', // Subtle orange border
+    borderColor: 'rgba(255, 165, 0, 0.2)',
   },
   cardTitle: {
     fontSize: SIZES.h4,

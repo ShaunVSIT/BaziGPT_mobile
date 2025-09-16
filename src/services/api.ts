@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Base URL for your existing Vercel deployment
-const BASE_URL = 'https://bazigpt.io/api';
+const BASE_URL = 'https://www.bazigpt.io/api';
 
 const api = axios.create({
   baseURL: BASE_URL,

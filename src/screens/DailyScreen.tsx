@@ -151,8 +151,9 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: COLORS.surface,
-    margin: SIZES.md,
-    padding: SIZES.lg,
+    marginHorizontal: SIZES.sm,
+    marginVertical: SIZES.sm,
+    padding: SIZES.md,
     borderRadius: SIZES.radius,
     ...SHADOWS.medium,
   },
@@ -203,7 +204,8 @@ const styles = StyleSheet.create({
   },
   refreshCard: {
     backgroundColor: COLORS.surface,
-    margin: SIZES.md,
+    marginHorizontal: SIZES.md,
+    marginVertical: SIZES.sm,
     padding: SIZES.md,
     borderRadius: SIZES.radius,
     flexDirection: 'row',
