@@ -13,6 +13,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { baziApi } from '../services/api';
+import { useLoading } from '../components/LoadingProvider';
 
 interface FamousPerson {
   id: string;
@@ -27,6 +28,7 @@ const FamousScreen = () => {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
+  const { show, hide } = useLoading();
 
   useEffect(() => {
     loadData();
@@ -35,6 +37,7 @@ const FamousScreen = () => {
   const loadData = async () => {
     try {
       setLoading(true);
+      show({ title: 'Loading Famous People', subtitle: 'Discovering legendary personalities...', blocking: true });
       const [personsResponse, categoriesResponse] = await Promise.all([
         baziApi.getFamousPersons({ limit: 50 }),
         baziApi.getFamousCategories(),
@@ -47,6 +50,7 @@ const FamousScreen = () => {
       Alert.alert('Error', 'Failed to load famous persons data.');
     } finally {
       setLoading(false);
+      hide();
     }
   };
 

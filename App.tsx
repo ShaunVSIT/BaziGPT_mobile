@@ -6,6 +6,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import Navigation from './src/components/Navigation';
 import BackgroundDecorative from './src/components/BackgroundDecorative';
 import { COLORS } from './src/constants/theme';
+import { LoadingProvider } from './src/components/LoadingProvider';
 
 export default function App() {
   return (
@@ -13,7 +14,9 @@ export default function App() {
       {/* Full screen background OUTSIDE SafeAreaProvider */}
       <BackgroundDecorative />
       <SafeAreaProvider style={{ backgroundColor: 'transparent' }}>
-        <Navigation />
+        <LoadingProvider>
+          <Navigation />
+        </LoadingProvider>
       </SafeAreaProvider>
       <StatusBar style="light" translucent backgroundColor="transparent" />
     </GestureHandlerRootView>

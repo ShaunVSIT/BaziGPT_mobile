@@ -19,6 +19,7 @@ import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import Markdown from '../components/Markdown';
 import { baziApi, CompatibilityRequest } from '../services/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useLoading } from '../components/LoadingProvider';
 
 const CompatibilityScreen = () => {
   const [person1, setPerson1] = useState({
@@ -40,6 +41,7 @@ const CompatibilityScreen = () => {
 
   const [loading, setLoading] = useState(false);
   const [compatibility, setCompatibility] = useState<string | null>(null);
+  const { show, hide } = useLoading();
 
   useEffect(() => {
     const loadPerson1FromProfile = async () => {
@@ -66,6 +68,7 @@ const CompatibilityScreen = () => {
   const handleGetCompatibility = async () => {
     try {
       setLoading(true);
+      show({ title: 'Analyzing Compatibility', subtitle: 'Matching the elements...', blocking: true });
 
       const requestData: CompatibilityRequest = {
         person1: {
@@ -85,6 +88,7 @@ const CompatibilityScreen = () => {
       Alert.alert('Error', 'Failed to get compatibility analysis. Please try again.');
     } finally {
       setLoading(false);
+      hide();
     }
   };
 

@@ -15,9 +15,11 @@ import { format } from 'date-fns';
 
 import { COLORS, SIZES, SHADOWS } from '../constants/theme';
 import { baziApi } from '../services/api';
+import { useLoading } from '../components/LoadingProvider';
 
 const DailyScreen = () => {
   const [loading, setLoading] = useState(false);
+  const { show, hide } = useLoading();
   const [forecast, setForecast] = useState<string | null>(null);
   const [pillar, setPillar] = useState<string | null>(null);
   const [hasProfile, setHasProfile] = useState(false);
@@ -41,6 +43,7 @@ const DailyScreen = () => {
   const loadDailyForecast = async () => {
     try {
       setLoading(true);
+      show({ title: 'Loading Daily Forecast', subtitle: 'Calculating today\'s energy...', blocking: true });
       const profile = await AsyncStorage.getItem('userProfile');
 
       if (!profile) {
@@ -64,6 +67,7 @@ const DailyScreen = () => {
       Alert.alert('Error', 'Failed to load daily forecast. Please try again.');
     } finally {
       setLoading(false);
+      hide();
     }
   };
 

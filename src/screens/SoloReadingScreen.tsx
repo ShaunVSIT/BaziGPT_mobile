@@ -22,6 +22,7 @@ import AboutScreen from './AboutScreen';
 import Markdown from '../components/Markdown';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { baziApi, BaziReadingRequest, BaziFollowupRequest } from '../services/api';
+import { useLoading } from '../components/LoadingProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // Markdown already imported above
 
@@ -40,6 +41,7 @@ const SoloReadingScreen = () => {
     const [followUpLoading, setFollowUpLoading] = useState(false);
     const [cachedAnswers, setCachedAnswers] = useState<Record<string, string>>({});
     const [aboutOpen, setAboutOpen] = useState(false);
+    const { show, hide } = useLoading();
 
     // Build a stable cache key for a reading based on DOB and time
     const getReadingCacheKey = (date: Date, time: Date) => {
@@ -90,6 +92,7 @@ const SoloReadingScreen = () => {
     const handleGetReading = async () => {
         try {
             setLoading(true);
+            show({ title: 'Generating Your Reading', subtitle: 'Consulting the stars...', blocking: true });
 
             const requestData: BaziReadingRequest = {
                 birthDate: format(birthDate, 'yyyy-MM-dd'),
@@ -110,6 +113,7 @@ const SoloReadingScreen = () => {
             Alert.alert('Error', 'Failed to get your Bazi reading. Please try again.');
         } finally {
             setLoading(false);
+            hide();
         }
     };
 
@@ -128,6 +132,7 @@ const SoloReadingScreen = () => {
                 return;
             }
             setFollowUpLoading(true);
+            show({ title: 'Answering Your Question', subtitle: 'Thinking deeply...', blocking: true });
             const requestData: BaziFollowupRequest = {
                 birthDate: format(birthDate, 'yyyy-MM-dd'),
                 question,
@@ -140,6 +145,7 @@ const SoloReadingScreen = () => {
             Alert.alert('Error', 'Failed to get the answer. Please try again.');
         } finally {
             setFollowUpLoading(false);
+            hide();
         }
     };
 
