@@ -48,8 +48,8 @@ const TabNavigator: React.FC = () => {
         tabBarStyle: {
           backgroundColor: COLORS.surface,
           borderTopColor: COLORS.border,
-          height: 50 + insets.bottom, // Reduced height
-          paddingBottom: 4 + insets.bottom, // Reduced padding
+          height: 50 + insets.bottom, // Include safe area in total height
+          paddingBottom: 6, // Do not add insets here to avoid large bottom gap
           paddingTop: 4,
           borderTopWidth: 0.5,
         },

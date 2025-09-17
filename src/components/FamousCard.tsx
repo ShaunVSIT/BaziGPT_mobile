@@ -22,7 +22,10 @@ const FamousCard: React.FC<FamousCardProps> = ({ name, category, bio, imageUrl, 
                     <View style={[styles.image, styles.imagePlaceholder]} />
                 )}
                 <LinearGradient
-                    colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.6)"]}
+                    colors={["rgba(0,0,0,0)", "rgba(0,0,0,0.35)", "rgba(0,0,0,0.9)"]}
+                    locations={[0, 0.5, 1]}
+                    start={{ x: 0.5, y: 0 }}
+                    end={{ x: 0.5, y: 1 }}
                     style={styles.overlay}
                 />
                 <View style={styles.topRow}>
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: 0,
-        height: '55%',
+        height: '70%',
         borderBottomLeftRadius: SIZES.radiusLg,
         borderBottomRightRadius: SIZES.radiusLg,
     },
@@ -117,11 +120,17 @@ const styles = StyleSheet.create({
         fontSize: SIZES.h4,
         fontWeight: '800',
         marginBottom: 4,
+        textShadowColor: 'rgba(0,0,0,0.6)',
+        textShadowOffset: { width: 0, height: 1 },
+        textShadowRadius: 2,
     },
     caption: {
         color: COLORS.textSecondary,
         fontSize: SIZES.caption,
         lineHeight: 20,
+        textShadowColor: 'rgba(0,0,0,0.6)',
+        textShadowOffset: { width: 0, height: 1 },
+        textShadowRadius: 1,
     },
 });
 
