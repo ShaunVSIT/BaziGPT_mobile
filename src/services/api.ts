@@ -86,9 +86,19 @@ export interface BaziFollowupResponse {
 export interface FamousPerson {
   id?: string;
   name: string;
-  category?: string;
-  description?: string;
   slug: string;
+  category?: string;
+  bio?: string;
+  image_url?: string;
+  birth_date?: string;
+  birth_time?: string;
+  twitter_handle?: string;
+  instagram_handle?: string;
+  tiktok_handle?: string;
+  threads_handle?: string;
+  website?: string;
+  bazi_reading?: string;
+  marketing_blurb?: string;
 }
 
 export interface FamousListResponse {
