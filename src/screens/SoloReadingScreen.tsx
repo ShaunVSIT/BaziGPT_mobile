@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import {
     View,
     Text,
@@ -9,6 +9,7 @@ import {
     ActivityIndicator,
     Modal,
     Share,
+    PanResponder,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -42,6 +43,21 @@ const SoloReadingScreen = () => {
     const [cachedAnswers, setCachedAnswers] = useState<Record<string, string>>({});
     const [aboutOpen, setAboutOpen] = useState(false);
     const { show, hide } = useLoading();
+    // Full-screen horizontal swipe to close About modal
+    const fullScreenSwipeResponder = useRef(
+        PanResponder.create({
+            onStartShouldSetPanResponder: () => false,
+            onMoveShouldSetPanResponder: (evt, gestureState) => {
+                // Start capturing when a rightward horizontal swipe is detected with minimal vertical movement
+                return gestureState.dx > 12 && Math.abs(gestureState.dy) < 20;
+            },
+            onPanResponderRelease: (evt, gestureState) => {
+                if (gestureState.dx > 80 && Math.abs(gestureState.dy) < 60) {
+                    setAboutOpen(false);
+                }
+            },
+        })
+    ).current;
 
     // Build a stable cache key for a reading based on DOB and time
     const getReadingCacheKey = (date: Date, time: Date) => {
@@ -370,14 +386,21 @@ const SoloReadingScreen = () => {
                 </Modal>
 
                 {/* About Fullscreen Modal */}
-                <Modal visible={aboutOpen} animationType="slide">
+                <Modal visible={aboutOpen} animationType="slide" onRequestClose={() => setAboutOpen(false)}>
                     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }} edges={['left', 'right', 'bottom']}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.md, paddingTop: insets.top + SIZES.xs }}>
-                            <TouchableOpacity onPress={() => setAboutOpen(false)}>
-                                <Text style={{ color: COLORS.primary, fontWeight: '700' }}>Close</Text>
-                            </TouchableOpacity>
+                        <View style={{ flex: 1 }} {...fullScreenSwipeResponder.panHandlers}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: SIZES.md, paddingTop: insets.top + SIZES.xs }}>
+                                <TouchableOpacity
+                                    onPress={() => setAboutOpen(false)}
+                                    accessibilityLabel="Close About"
+                                    hitSlop={{ top: 12, right: 12, bottom: 12, left: 12 }}
+                                    style={{ padding: 6 }}
+                                >
+                                    <Ionicons name="close" size={28} color={COLORS.primary} />
+                                </TouchableOpacity>
+                            </View>
+                            <AboutScreen />
                         </View>
-                        <AboutScreen />
                     </SafeAreaView>
                 </Modal>
             </ScrollView>
