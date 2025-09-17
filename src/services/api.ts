@@ -1,7 +1,11 @@
 import axios from 'axios';
+import Constants from 'expo-constants';
 
-// Base URL for your existing Vercel deployment
-const BASE_URL = 'https://www.bazigpt.io/api';
+// Resolve API base URL from app config (app.json -> expo.extra.apiBaseUrl), with safe fallback
+const BASE_URL: string =
+  (Constants?.expoConfig?.extra as any)?.apiBaseUrl ||
+  (Constants?.manifestExtra as any)?.apiBaseUrl ||
+  'https://www.bazigpt.io/api';
 
 const api = axios.create({
   baseURL: BASE_URL,

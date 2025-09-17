@@ -21,7 +21,8 @@
       "buildNumber": "1",
       "infoPlist": {
         "CFBundleDisplayName": "BaziGPT",
-        "CFBundleName": "BaziGPT"
+        "CFBundleName": "BaziGPT",
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -44,7 +45,11 @@
     "extra": {
       "eas": {
         "projectId": "280e55c6-9262-4fa1-8e5d-c675e1698aa2"
-      }
-    }
+      },
+      "apiBaseUrl": "https://www.bazigpt.io/api"
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
